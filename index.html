@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirect Code Generator</title>
+    <style>
+        body { font-family: sans-serif; background: #f0f2f5; display: flex; justify-content: center; padding: 40px; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 600px; }
+        h2 { color: #333; margin-top: 0; }
+        input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        button { background: #2ea44f; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; font-size: 16px; }
+        button:hover { background: #2c974b; }
+        #outputContainer { margin-top: 25px; display: none; }
+        textarea { width: 100%; height: 250px; font-family: monospace; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; background: #fafafa; }
+        .label { font-weight: bold; margin-bottom: 5px; display: block; color: #555; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>🚀 Link Code Generator</h2>
+        <p>Paste your Telegram link below to generate the ready-to-use <code>index.html</code> code.</p>
+        
+        <input type="text" id="tgLink" placeholder="https://t.me/your_username">
+        <button onclick="generateCode()">Generate HTML Code</button>
+
+        <div id="outputContainer">
+            <span class="label">Copy this code into your index.html:</span>
+            <textarea id="resultCode" readonly></textarea>
+            <button onclick="copyCode()" style="background: #007bff; margin-top: 10px;">Copy to Clipboard</button>
+        </div>
+    </div>
+
+    <script>
+        function generateCode() {
+            const link = document.getElementById('tgLink').value;
+            if (!link) { alert("Please paste a link first!"); return; }
+
+            const template = `<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="refresh" content="0; url=${link}">
+    <script type="text/javascript">
+        window.location.href = "${link}";
+    <\/script>
+    <title>Redirecting...</title>
+</head>
+<body>
+    <p>Redirecting you to the destination... <br>
+    If you are not redirected, <a href="${link}">click here</a>.</p>
+</body>
+</html>`;
+
+            document.getElementById('resultCode').value = template;
+            document.getElementById('outputContainer').style.display = 'block';
+        }
+
+        function copyCode() {
+            const copyText = document.getElementById("resultCode");
+            copyText.select();
+            document.execCommand("copy");
+            alert("Code copied to clipboard!");
+        }
+    </script>
+</body>
+</html>
